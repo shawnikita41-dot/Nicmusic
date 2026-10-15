@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#101010" />
+  <title>Nicmusic — Music for every mood</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="Nicmusic home"><span class="brand-mark">♫</span><span>nicmusic</span></a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <button class="nav-item active" data-view="home"><span>⌂</span> Home</button>
+        <button class="nav-item" data-view="search"><span>⌕</span> Search</button>
+        <button class="nav-item" data-view="library"><span>▤</span> Your Library</button>
+      </nav>
+      <div class="sidebar-label-row"><span class="sidebar-label">YOUR COLLECTION</span><button id="createPlaylistBtn" class="tiny-add" title="Create playlist" aria-label="Create playlist">＋</button></div>
+      <button class="collection-item" data-view="favorites"><span class="collection-icon liked">♥</span> Liked Songs</button>
+      <button class="collection-item" data-view="recent"><span class="collection-icon recent-icon">◷</span> Recently Played</button>
+      <div id="playlistList" class="playlist-list"></div>
+      <div class="sidebar-bottom"><div class="status-dot"></div><span>Made for your mood</span><span class="equalizer">▮▮▮</span></div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="history-buttons"><button class="circle-btn" id="backBtn" aria-label="Back">‹</button><button class="circle-btn" id="forwardBtn" aria-label="Forward">›</button></div>
+        <label class="search-box" id="searchBox"><span>⌕</span><input id="searchInput" type="search" placeholder="What do you want to play?" autocomplete="off" /><kbd>⌘ K</kbd></label>
+        <div class="account-actions"><button class="premium-link" id="premiumBtn">Explore Premium</button><button class="login-btn" id="openAuthBtn">Log in</button><button class="avatar" id="accountAvatar" aria-label="Account">N</button></div>
+      </header>
+
+      <section id="homeView" class="view active-view">
+        <div class="hero">
+          <div class="hero-glow"></div><div class="hero-copy"><p class="eyebrow"><span class="live-dot"></span> YOUR PERSONAL SOUNDTRACK</p><h1>Feel every<br><span>frequency.</span></h1><p class="hero-subtitle">Find your rhythm. Save the songs that get you.<br>Your next favourite is one play away.</p><button class="primary-btn" id="heroPlayBtn"><span>▶</span> Start listening</button></div>
+          <div class="hero-art" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="hero-disc"><div class="disc-label">N<span>♫</span></div></div><div class="floating-note note-one">♫</div><div class="floating-note note-two">♪</div><div class="sound-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+          <div class="hero-index"><span>01</span><span class="index-line"></span><span>03</span></div>
+        </div>
+
+        <div class="section-heading"><div><p class="eyebrow">PICK UP THE VIBE</p><h2>Made for your mood</h2></div><button class="text-link" data-view="library">See all <span>↗</span></button></div>
+        <div class="mood-grid">
+          <button class="mood-card mood-purple" data-mood="chill"><span class="mood-symbol">☾</span><span><strong>Slow down</strong><small>Chill & unwind</small></span><span class="mood-arrow">↗</span></button>
+          <button class="mood-card mood-orange" data-mood="focus"><span class="mood-symbol">⌁</span><span><strong>Lock in</strong><small>Focus mode</small></span><span class="mood-arrow">↗</span></button>
+          <button class="mood-card mood-blue" data-mood="energy"><span class="mood-symbol">ϟ</span><span><strong>Turn it up</strong><small>Energy boost</small></span><span class="mood-arrow">↗</span></button>
+          <button class="mood-card mood-pink" data-mood="dream"><span class="mood-symbol">✧</span><span><strong>Drift away</strong><small>Dream pop</small></span><span class="mood-arrow">↗</span></button>
+        </div>
+
+        <div class="section-heading section-gap"><div><p class="eyebrow">HANDPICKED FOR YOU</p><h2>Featured tracks</h2></div><button class="text-link" data-view="library">View library <span>↗</span></button></div>
+        <div id="featuredTracks" class="track-grid"></div>
+        <div class="section-heading section-gap"><div><p class="eyebrow">BOLLYWOOD COLLECTION</p><h2>Bollywood picks</h2><p class="demo-note">Play licensed previews here, or open a song on Apple Music to hear the full recording.</p></div><button class="text-link" data-view="library">View all 50 <span>↗</span></button></div>
+        <div id="bollywoodTracks" class="track-grid"></div>
+        <div class="section-heading section-gap"><div><p class="eyebrow">THE COLLECTION</p><h2>Explore albums</h2></div><button class="text-link" data-view="library">Browse all <span>↗</span></button></div>
+        <div id="albumGrid" class="album-grid"></div>
+      </section>
+
+      <section id="searchView" class="view">
+        <div class="page-heading"><p class="eyebrow">DISCOVER SOMETHING NEW</p><h1>Search</h1><p>Find a track, artist, album, or mood.</p></div>
+        <div class="large-search"><span>⌕</span><input id="largeSearchInput" type="search" placeholder="Search songs, artists, albums…" autocomplete="off"></div>
+        <div id="searchResults"></div>
+      </section>
+
+      <section id="libraryView" class="view">
+        <div class="page-heading"><p class="eyebrow">YOUR MUSIC, YOUR WAY</p><h1>Your Library</h1><p>Everything you love, all in one place.</p></div>
+        <div class="filter-tabs"><button class="filter-tab active" data-filter="all">All</button><button class="filter-tab" data-filter="tracks">Tracks</button><button class="filter-tab" data-filter="albums">Albums</button><button class="filter-tab" data-filter="playlists">Playlists</button></div>
+        <div id="libraryContent"></div>
+      </section>
+
+      <section id="favoritesView" class="view">
+        <div class="collection-hero"><div class="liked-large">♥</div><div><p class="eyebrow">YOUR COLLECTION</p><h1>Liked Songs</h1><p id="favoriteCount">0 saved tracks</p></div></div>
+        <div id="favoritesContent"></div>
+      </section>
+
+      <section id="recentView" class="view">
+        <div class="page-heading"><p class="eyebrow">BACK TO THE FEELING</p><h1>Recently Played</h1><p>Your listening history on this device.</p></div>
+        <div id="recentContent"></div>
+      </section>
+
+      <section id="playlistView" class="view">
+        <div class="page-heading"><p class="eyebrow">YOUR PERSONAL MIX</p><h1 id="playlistTitle">Playlist</h1><p id="playlistDescription">A collection for every version of you.</p></div>
+        <div id="playlistContent"></div>
+      </section>
+      <footer class="footer"><span>© 2026 Nicmusic</span><span>Made with <b>♫</b> and a little bit of feeling.</span><span class="demo-note">Licensed previews · availability varies</span></footer>
+    </main>
+  </div>
+
+  <div class="player">
+    <div class="now-playing">
+    <div id="nowCover" class="mini-cover cover-a">♫</div><div class="now-meta"><strong id="nowTitle">Choose a track</strong><span id="nowArtist">Your soundtrack starts here</span><a id="songLink" target="_blank" rel="noopener noreferrer" aria-label="Open full song on Apple Music" title="Open full song on Apple Music" style="color:var(--green);font-size:10px;white-space:nowrap" hidden>Full song ↗</a></div><button id="nowLikeBtn" class="icon-btn like-btn" aria-label="Like song">♡</button>
+    </div>
+    <div class="player-center">
+      <div class="player-controls"><button class="icon-btn" id="shuffleBtn" title="Shuffle" aria-label="Shuffle">⤨</button><button class="icon-btn" id="prevBtn" title="Previous" aria-label="Previous">◀|</button><button class="play-main" id="playBtn" aria-label="Play">▶</button><button class="icon-btn" id="nextBtn" title="Next" aria-label="Next">|▶</button><button class="icon-btn" id="repeatBtn" title="Repeat" aria-label="Repeat">↻</button></div>
+      <div class="progress-row"><span id="currentTime">0:00</span><input id="progress" type="range" min="0" max="100" value="0" aria-label="Track progress"><span id="duration">0:00</span></div>
+    </div>
+    <div class="player-right"><button class="icon-btn lyrics-toggle" id="lyricsBtn" title="Show lyrics" aria-label="Show lyrics">▤</button><span class="volume-icon">◖))</span><input id="volume" type="range" min="0" max="1" step="0.01" value="0.7" aria-label="Volume"><button class="icon-btn queue-btn" id="queueBtn" title="Up next" aria-label="Up next">☷</button></div>
+  </div>
+
+  <div id="lyricsPanel" class="lyrics-panel" aria-hidden="true"><div class="lyrics-head"><div><p class="eyebrow">SING ALONG</p><h2 id="lyricsTitle">Lyrics</h2></div><button id="closeLyricsBtn" class="circle-btn" aria-label="Close lyrics">×</button></div><div id="lyricsBody" class="lyrics-body"><p>Select a track to view its lyrics.</p></div><p class="lyrics-foot">Demo lyrics are original placeholders. Replace with lyrics you own or are licensed to display.</p></div>
+
+  <div id="bollywoodPlayerModal" class="bollywood-player-modal" aria-hidden="true"><div class="bollywood-player-dialog" role="dialog" aria-modal="true" aria-labelledby="bollywoodPlayerTitle"><div class="bollywood-player-heading"><div><p class="eyebrow">OFFICIAL APPLE MUSIC PLAYER</p><h2 id="bollywoodPlayerTitle">Bollywood song</h2></div><button id="closeBollywoodPlayer" class="circle-btn" aria-label="Close music player">×</button></div><iframe id="bollywoodPlayerFrame" title="Apple Music song player" allow="autoplay; encrypted-media; fullscreen; clipboard-write" referrerpolicy="strict-origin-when-cross-origin"></iframe><p class="bollywood-player-note">Tap play in the player. Full-song playback may require an Apple Music subscription.</p><a id="bollywoodAppleLink" class="inline-link" target="_blank" rel="noopener noreferrer">Open in Apple Music ↗</a></div></div>
+
+  <div id="authModal" class="modal-backdrop" aria-hidden="true"><div class="modal auth-modal" role="dialog" aria-modal="true" aria-labelledby="authTitle"><button class="modal-close" data-close-modal aria-label="Close">×</button><a class="brand modal-brand" href="#"><span class="brand-mark">♫</span><span>nicmusic</span></a><p class="eyebrow">YOUR MUSIC SPACE</p><h2 id="authTitle">Welcome back.</h2><p id="authSubtitle" class="modal-subtitle">Sign in to keep your music close.</p><form id="authForm"><label class="field-label">Email address<input id="authEmail" type="email" placeholder="you@example.com" required></label><label class="field-label">Password<input id="authPassword" type="password" placeholder="At least 6 characters" minlength="6" required></label><label id="nameField" class="field-label hidden">Display name<input id="authName" type="text" placeholder="What should we call you?"></label><button class="primary-btn full-btn" id="authSubmit" type="submit">Log in</button></form><p id="authMessage" class="auth-message" role="status"></p><p class="auth-switch"><span id="authSwitchText">New to Nicmusic?</span> <button id="authSwitchBtn" class="inline-link">Create account</button></p><p class="privacy-note">Demo-only account: credentials stay in this browser. Do not use a real password.</p></div></div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <audio id="audio" preload="metadata"></audio>
+  <script src="script.js"></script>
+</body>
+</html>
